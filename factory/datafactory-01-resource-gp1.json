@@ -1,0 +1,9 @@
+{
+	"name": "datafactory-01-resource-gp1",
+	"location": "centralus",
+	"identity": {
+		"type": "SystemAssigned",
+		"principalId": "68ca5d0c-5edc-4d7c-9c03-7e02633ba41a",
+		"tenantId": "4c7b3104-a668-40b3-ac14-16cd64e8016e"
+	}
+}
