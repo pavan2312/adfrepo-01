@@ -1,0 +1,26 @@
+{
+	"name": "trigger1",
+	"properties": {
+		"description": "This is trigger1",
+		"annotations": [],
+		"runtimeState": "Started",
+		"pipelines": [
+			{
+				"pipelineReference": {
+					"referenceName": "CopyPipeline01_zcq",
+					"type": "PipelineReference"
+				}
+			}
+		],
+		"type": "ScheduleTrigger",
+		"typeProperties": {
+			"recurrence": {
+				"frequency": "Minute",
+				"interval": 1,
+				"startTime": "2022-04-24T13:18:00Z",
+				"endTime": "2022-04-24T18:54:00Z",
+				"timeZone": "UTC"
+			}
+		}
+	}
+}
