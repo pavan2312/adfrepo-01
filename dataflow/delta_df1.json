@@ -1,0 +1,80 @@
+{
+	"name": "delta_df1",
+	"properties": {
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "STG_DS",
+						"type": "DatasetReference"
+					},
+					"name": "source1"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "ODS_DS",
+						"type": "DatasetReference"
+					},
+					"name": "sink1"
+				}
+			],
+			"transformations": [
+				{
+					"name": "derivedColumn1"
+				}
+			],
+			"scriptLines": [
+				"source(output(",
+				"          id as integer,",
+				"          user_agent as string,",
+				"          ip_address as string,",
+				"          update_time as timestamp,",
+				"          stg_source_system_changed_datetime as timestamp",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     enableCdc: true,",
+				"     mode: 'read',",
+				"     skipInitialLoad: false,",
+				"     waterMarkColumn: 'stg_source_system_changed_datetime',",
+				"     isolationLevel: 'READ_UNCOMMITTED',",
+				"     format: 'table') ~> source1",
+				"source1 derive(insertedby = 'P1',",
+				"          sourcename = 'S1') ~> derivedColumn1",
+				"derivedColumn1 sink(allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     input(",
+				"          ods_health_check_id as integer,",
+				"          ods_inserted_datetime as timestamp,",
+				"          ods_inserted_by as string,",
+				"          ods_source_system as string,",
+				"          ods_source_system_changed_datetime as timestamp,",
+				"          id as integer,",
+				"          user_agent as string,",
+				"          ip_address as string,",
+				"          update_time as timestamp",
+				"     ),",
+				"     deletable:false,",
+				"     insertable:true,",
+				"     updateable:false,",
+				"     upsertable:false,",
+				"     format: 'table',",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true,",
+				"     errorHandlingOption: 'stopOnFirstError',",
+				"     mapColumn(",
+				"          ods_inserted_by = insertedby,",
+				"          ods_source_system = sourcename,",
+				"          ods_source_system_changed_datetime = stg_source_system_changed_datetime,",
+				"          id,",
+				"          user_agent,",
+				"          ip_address,",
+				"          update_time",
+				"     )) ~> sink1"
+			]
+		}
+	}
+}

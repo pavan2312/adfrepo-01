@@ -1,0 +1,74 @@
+{
+	"name": "DemoPipeline",
+	"properties": {
+		"activities": [
+			{
+				"name": "ForEach1",
+				"type": "ForEach",
+				"dependsOn": [],
+				"userProperties": [],
+				"typeProperties": {
+					"items": {
+						"value": "@variables('AnimalsArray')",
+						"type": "Expression"
+					},
+					"activities": [
+						{
+							"name": "Append variable1",
+							"type": "AppendVariable",
+							"dependsOn": [],
+							"userProperties": [],
+							"typeProperties": {
+								"variableName": "CopyAnimals",
+								"value": {
+									"value": "@item()",
+									"type": "Expression"
+								}
+							}
+						},
+						{
+							"name": "Set variable1",
+							"type": "SetVariable",
+							"dependsOn": [
+								{
+									"activity": "Append variable1",
+									"dependencyConditions": [
+										"Succeeded"
+									]
+								}
+							],
+							"userProperties": [],
+							"typeProperties": {
+								"variableName": "DisplayAnimals",
+								"value": {
+									"value": "@variables('CopyAnimals')",
+									"type": "Expression"
+								}
+							}
+						}
+					]
+				}
+			}
+		],
+		"variables": {
+			"AnimalsArray": {
+				"type": "Array",
+				"defaultValue": [
+					"Dog",
+					"Cat",
+					"Hippo",
+					"Monkey"
+				]
+			},
+			"CopyAnimals": {
+				"type": "Array"
+			},
+			"DisplayAnimals": {
+				"type": "Array"
+			}
+		},
+		"annotations": [],
+		"lastPublishTime": "2022-05-02T11:28:52Z"
+	},
+	"type": "Microsoft.DataFactory/factories/pipelines"
+}

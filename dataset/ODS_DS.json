@@ -1,0 +1,59 @@
+{
+	"name": "ODS_DS",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "ODS_SQL_LS",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "ods_health_check_id",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "ods_inserted_datetime",
+				"type": "datetime2",
+				"scale": 7
+			},
+			{
+				"name": "ods_inserted_by",
+				"type": "nvarchar"
+			},
+			{
+				"name": "ods_source_system",
+				"type": "nvarchar"
+			},
+			{
+				"name": "ods_source_system_changed_datetime",
+				"type": "datetime2",
+				"scale": 7
+			},
+			{
+				"name": "id",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "user_agent",
+				"type": "nvarchar"
+			},
+			{
+				"name": "ip_address",
+				"type": "nvarchar"
+			},
+			{
+				"name": "update_time",
+				"type": "datetime2",
+				"scale": 7
+			}
+		],
+		"typeProperties": {
+			"schema": "dbo",
+			"table": "health_check"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

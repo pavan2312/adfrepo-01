@@ -1,0 +1,41 @@
+{
+	"name": "STG_DS",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "STG_SQL_LS",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "id",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "user_agent",
+				"type": "nvarchar"
+			},
+			{
+				"name": "ip_address",
+				"type": "nvarchar"
+			},
+			{
+				"name": "update_time",
+				"type": "datetime2",
+				"scale": 7
+			},
+			{
+				"name": "stg_source_system_changed_datetime",
+				"type": "datetime2",
+				"scale": 7
+			}
+		],
+		"typeProperties": {
+			"schema": "dbo",
+			"table": "HEALTH_CHECK"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

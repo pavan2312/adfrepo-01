@@ -1,0 +1,37 @@
+{
+	"name": "pipeline_delta01",
+	"properties": {
+		"activities": [
+			{
+				"name": "delta_dataflow1",
+				"type": "ExecuteDataFlow",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "1.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"dataflow": {
+						"referenceName": "delta_df1",
+						"type": "DataFlowReference"
+					},
+					"compute": {
+						"coreCount": 8,
+						"computeType": "General"
+					},
+					"traceLevel": "Fine",
+					"continuationSettings": {
+						"customizedCheckpointKey": "13d6b602-288a-42d4-8b92-d654370ddbb0"
+					}
+				}
+			}
+		],
+		"annotations": [],
+		"lastPublishTime": "2022-04-29T15:05:22Z"
+	},
+	"type": "Microsoft.DataFactory/factories/pipelines"
+}
