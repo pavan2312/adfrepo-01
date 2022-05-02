@@ -1,0 +1,12 @@
+{
+	"name": "TableListLS",
+	"type": "Microsoft.DataFactory/factories/linkedservices",
+	"properties": {
+		"annotations": [],
+		"type": "AzureSqlDatabase",
+		"typeProperties": {
+			"connectionString": "integrated security=False;encrypt=True;connection timeout=30;data source=devserver101.database.windows.net;initial catalog=STG;user id=serveradmin",
+			"encryptedCredential": "ew0KICAiVmVyc2lvbiI6ICIyMDE3LTExLTMwIiwNCiAgIlByb3RlY3Rpb25Nb2RlIjogIktleSIsDQogICJTZWNyZXRDb250ZW50VHlwZSI6ICJQbGFpbnRleHQiLA0KICAiQ3JlZGVudGlhbElkIjogIkRBVEFGQUNUT1JZQEJGNEY0MkU0LTgzMUQtNDA5RS05QTQ1LUNBMjc1RDFDNjQ1MV81ODQ4NDI0Zi05MmQ2LTQ2NjktYTM4NC0xMDc5ODQ4MmYxYzAiDQp9"
+		}
+	}
+}
