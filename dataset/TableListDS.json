@@ -1,0 +1,16 @@
+{
+	"name": "TableListDS",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "TableListLS",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [],
+		"typeProperties": {
+			"schema": "dbo",
+			"table": "VW_TableList"
+		}
+	}
+}
