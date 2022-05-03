@@ -3,7 +3,7 @@
 	"properties": {
 		"activities": [
 			{
-				"name": "LookupOldWaterMark1",
+				"name": "LookupOldWaterMark",
 				"type": "Lookup",
 				"dependsOn": [],
 				"policy": {
@@ -59,7 +59,7 @@
 				"type": "Copy",
 				"dependsOn": [
 					{
-						"activity": "LookupOldWaterMark1",
+						"activity": "LookupOldWaterMark",
 						"dependencyConditions": [
 							"Succeeded"
 						]
