@@ -17,6 +17,10 @@
 				"typeProperties": {
 					"source": {
 						"type": "AzureSqlSource",
+						"sqlReaderQuery": {
+							"value": "SELECT * FROM watermarktable WHERE TableName = '@{pipeline().parameters.TableName}'",
+							"type": "Expression"
+						},
 						"queryTimeout": "02:00:00",
 						"partitionOption": "None"
 					},
@@ -24,7 +28,7 @@
 						"referenceName": "OldWatermark_DS",
 						"type": "DatasetReference"
 					},
-					"firstRowOnly": true
+					"firstRowOnly": false
 				}
 			},
 			{
@@ -55,17 +59,17 @@
 			},
 			{
 				"name": "DeltaCopy",
-				"description": "select * from HEALTH_CHECK where stg_source_system_changed_datetime > '@{activity('LookupOldWaterMark').output.firstRow.WatermarkValue}' and stg_source_system_changed_datetime  <= '@{activity('LookupNewWaterMark').output.firstRow.NewWatermarkvalue}'",
+				"description": "",
 				"type": "Copy",
 				"dependsOn": [
 					{
-						"activity": "LookupOldWaterMark",
+						"activity": "LookupNewWaterMark",
 						"dependencyConditions": [
 							"Succeeded"
 						]
 					},
 					{
-						"activity": "LookupNewWaterMark",
+						"activity": "If Condition1",
 						"dependencyConditions": [
 							"Succeeded"
 						]
@@ -99,7 +103,7 @@
 							}
 						],
 						"sqlReaderQuery": {
-							"value": "select * from HEALTH_CHECK where stg_source_system_changed_datetime > '@{activity('LookupOldWaterMark').output.firstRow.WatermarkValue}' and stg_source_system_changed_datetime  <= '@{activity('LookupNewWaterMark').output.firstRow.NewWatermarkvalue}'",
+							"value": "select * from HEALTH_CHECK where stg_source_system_changed_datetime > '@{variables('oldwatermark')}' and stg_source_system_changed_datetime  <= '@{activity('LookupNewWaterMark').output.firstRow.NewWatermarkvalue}'",
 							"type": "Expression"
 						},
 						"queryTimeout": "02:00:00",
@@ -247,7 +251,7 @@
 						},
 						"TableName": {
 							"value": {
-								"value": "@{activity('LookupOldWaterMark').output.firstRow.TableName}",
+								"value": "@pipeline().parameters.TableName",
 								"type": "Expression"
 							},
 							"type": "String"
@@ -258,8 +262,68 @@
 					"referenceName": "STG_SQL_LS",
 					"type": "LinkedServiceReference"
 				}
+			},
+			{
+				"name": "If Condition1",
+				"type": "IfCondition",
+				"dependsOn": [
+					{
+						"activity": "LookupOldWaterMark",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"userProperties": [],
+				"typeProperties": {
+					"expression": {
+						"value": "@empty(activity('LookupOldWaterMark').output.value)",
+						"type": "Expression"
+					},
+					"ifFalseActivities": [
+						{
+							"name": "Set variable2",
+							"type": "SetVariable",
+							"dependsOn": [],
+							"userProperties": [],
+							"typeProperties": {
+								"variableName": "oldwatermark",
+								"value": {
+									"value": "@{activity('LookupOldWaterMark').output.value[0].WatermarkValue}",
+									"type": "Expression"
+								}
+							}
+						}
+					],
+					"ifTrueActivities": [
+						{
+							"name": "Set variable1",
+							"type": "SetVariable",
+							"dependsOn": [],
+							"userProperties": [],
+							"typeProperties": {
+								"variableName": "oldwatermark",
+								"value": {
+									"value": "@string('1900-01-01 00:00:00')",
+									"type": "Expression"
+								}
+							}
+						}
+					]
+				}
 			}
 		],
+		"parameters": {
+			"TableName": {
+				"type": "string",
+				"defaultValue": "HEALTH_CHECK"
+			}
+		},
+		"variables": {
+			"oldwatermark": {
+				"type": "String"
+			}
+		},
 		"annotations": [],
 		"lastPublishTime": "2022-04-30T06:55:25Z"
 	},
