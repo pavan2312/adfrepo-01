@@ -28,7 +28,7 @@
 						"referenceName": "OldWatermark_DS",
 						"type": "DatasetReference"
 					},
-					"firstRowOnly": true
+					"firstRowOnly": false
 				}
 			},
 			{
