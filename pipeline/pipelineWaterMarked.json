@@ -59,7 +59,7 @@
 			},
 			{
 				"name": "DeltaCopy",
-				"description": "select * from HEALTH_CHECK where stg_source_system_changed_datetime > '@{activity('LookupOldWaterMark').output.firstRow.WatermarkValue}' and stg_source_system_changed_datetime  <= '@{activity('LookupNewWaterMark').output.firstRow.NewWatermarkvalue}'",
+				"description": "",
 				"type": "Copy",
 				"dependsOn": [
 					{
@@ -103,7 +103,7 @@
 							}
 						],
 						"sqlReaderQuery": {
-							"value": "select * from HEALTH_CHECK where stg_source_system_changed_datetime > '@{activity('LookupOldWaterMark').output.firstRow.WatermarkValue}' and stg_source_system_changed_datetime  <= '@{activity('LookupNewWaterMark').output.firstRow.NewWatermarkvalue}'",
+							"value": "select * from HEALTH_CHECK where stg_source_system_changed_datetime > '@{variables('oldwatermark')}' and stg_source_system_changed_datetime  <= '@{activity('LookupNewWaterMark').output.firstRow.NewWatermarkvalue}'",
 							"type": "Expression"
 						},
 						"queryTimeout": "02:00:00",
@@ -251,7 +251,7 @@
 						},
 						"TableName": {
 							"value": {
-								"value": "@{activity('LookupOldWaterMark').output.firstRow.TableName}",
+								"value": "@pipeline().parameters.TableName",
 								"type": "Expression"
 							},
 							"type": "String"
