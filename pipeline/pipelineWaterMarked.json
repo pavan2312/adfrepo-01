@@ -280,6 +280,21 @@
 						"value": "@empty(activity('LookupOldWaterMark').output.value)",
 						"type": "Expression"
 					},
+					"ifFalseActivities": [
+						{
+							"name": "Set variable2",
+							"type": "SetVariable",
+							"dependsOn": [],
+							"userProperties": [],
+							"typeProperties": {
+								"variableName": "oldwatermark",
+								"value": {
+									"value": "@{activity('LookupOldWaterMark').output.value[0].WatermarkValue}",
+									"type": "Expression"
+								}
+							}
+						}
+					],
 					"ifTrueActivities": [
 						{
 							"name": "Set variable1",
