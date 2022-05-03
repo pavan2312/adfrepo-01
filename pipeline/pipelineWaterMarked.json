@@ -17,6 +17,10 @@
 				"typeProperties": {
 					"source": {
 						"type": "AzureSqlSource",
+						"sqlReaderQuery": {
+							"value": "SELECT * FROM watermarktable WHERE TableName = '@{pipeline().parameters.TableName}'",
+							"type": "Expression"
+						},
 						"queryTimeout": "02:00:00",
 						"partitionOption": "None"
 					},
@@ -59,13 +63,13 @@
 				"type": "Copy",
 				"dependsOn": [
 					{
-						"activity": "LookupOldWaterMark",
+						"activity": "LookupNewWaterMark",
 						"dependencyConditions": [
 							"Succeeded"
 						]
 					},
 					{
-						"activity": "LookupNewWaterMark",
+						"activity": "If Condition1",
 						"dependencyConditions": [
 							"Succeeded"
 						]
@@ -258,8 +262,53 @@
 					"referenceName": "STG_SQL_LS",
 					"type": "LinkedServiceReference"
 				}
+			},
+			{
+				"name": "If Condition1",
+				"type": "IfCondition",
+				"dependsOn": [
+					{
+						"activity": "LookupOldWaterMark",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"userProperties": [],
+				"typeProperties": {
+					"expression": {
+						"value": "@empty(activity('LookupOldWaterMark').output.value)",
+						"type": "Expression"
+					},
+					"ifTrueActivities": [
+						{
+							"name": "Set variable1",
+							"type": "SetVariable",
+							"dependsOn": [],
+							"userProperties": [],
+							"typeProperties": {
+								"variableName": "oldwatermark",
+								"value": {
+									"value": "@string('1900-01-01 00:00:00')",
+									"type": "Expression"
+								}
+							}
+						}
+					]
+				}
 			}
 		],
+		"parameters": {
+			"TableName": {
+				"type": "string",
+				"defaultValue": "HEALTH_CHECK"
+			}
+		},
+		"variables": {
+			"oldwatermark": {
+				"type": "String"
+			}
+		},
 		"annotations": [],
 		"lastPublishTime": "2022-04-30T06:55:25Z"
 	},
