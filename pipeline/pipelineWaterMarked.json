@@ -277,7 +277,7 @@
 				"userProperties": [],
 				"typeProperties": {
 					"expression": {
-						"value": "@empty(activity('LookupOldWaterMark').output.value)",
+						"value": "@empty(activity('LookupOldWaterMark').output.value[0].WatermarkValue)",
 						"type": "Expression"
 					},
 					"ifFalseActivities": [
