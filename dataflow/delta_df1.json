@@ -27,6 +27,9 @@
 				}
 			],
 			"scriptLines": [
+				"parameters{",
+				"     parameter1 as long[] (array(1,2,3))",
+				"}",
 				"source(output(",
 				"          id as integer,",
 				"          user_agent as string,",
@@ -42,7 +45,7 @@
 				"     waterMarkColumn: 'stg_source_system_changed_datetime',",
 				"     isolationLevel: 'READ_UNCOMMITTED',",
 				"     format: 'table') ~> source1",
-				"source1 derive(insertedby = :local1,",
+				"source1 derive(insertedby = $parameter1[1],",
 				"          sourcename = :local2,",
 				"          local1 := 'DE',",
 				"          local2 := 'STG1') ~> derivedColumn1",
