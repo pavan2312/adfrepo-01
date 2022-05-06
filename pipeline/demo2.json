@@ -1,6 +1,55 @@
 {
 	"name": "demo2",
 	"properties": {
+		"activities": [
+			{
+				"name": "Filter1",
+				"type": "Filter",
+				"dependsOn": [],
+				"userProperties": [],
+				"typeProperties": {
+					"items": {
+						"value": "@variables('inputsarray')",
+						"type": "Expression"
+					},
+					"condition": {
+						"value": "@greater(item(),3 )",
+						"type": "Expression"
+					}
+				}
+			},
+			{
+				"name": "Set variable1",
+				"type": "SetVariable",
+				"dependsOn": [
+					{
+						"activity": "Filter1",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"userProperties": [],
+				"typeProperties": {
+					"variableName": "inputsarray",
+					"value": [
+						""
+					]
+				}
+			}
+		],
+		"variables": {
+			"inputsarray": {
+				"type": "Array",
+				"defaultValue": [
+					1,
+					2,
+					3,
+					4,
+					5
+				]
+			}
+		},
 		"annotations": []
 	}
 }
