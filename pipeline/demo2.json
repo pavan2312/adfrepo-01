@@ -3,7 +3,7 @@
 	"properties": {
 		"activities": [
 			{
-				"name": "Filter1",
+				"name": "FilterInput",
 				"type": "Filter",
 				"dependsOn": [],
 				"userProperties": [],
@@ -23,7 +23,7 @@
 				"type": "SetVariable",
 				"dependsOn": [
 					{
-						"activity": "Filter1",
+						"activity": "FilterInput",
 						"dependencyConditions": [
 							"Succeeded"
 						]
@@ -32,9 +32,10 @@
 				"userProperties": [],
 				"typeProperties": {
 					"variableName": "inputsarray",
-					"value": [
-						""
-					]
+					"value": {
+						"value": "@activity('FilterInput').output.value",
+						"type": "Expression"
+					}
 				}
 			}
 		],
